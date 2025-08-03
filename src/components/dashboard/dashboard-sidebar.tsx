@@ -8,10 +8,10 @@ interface DashboardSidebarProps {
 
 export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
   const menuItems = [
-    { icon: BarChart3, label: 'Dashboard', active: true },
-    { icon: Calendar, label: 'Agendamentos', active: false },
-    { icon: Send, label: 'Follow-ups', active: false },
-    { icon: Settings, label: 'Configurações', active: false },
+    { icon: BarChart3, label: 'Dashboard', href: '/', active: window.location.pathname === '/' },
+    { icon: Calendar, label: 'Agenda', href: '/agenda', active: window.location.pathname === '/agenda' },
+    { icon: Send, label: 'Follow-ups', href: '#', active: false },
+    { icon: Settings, label: 'Configurações', href: '#', active: false },
   ];
 
   return (
@@ -47,8 +47,10 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
             {menuItems.map((item, index) => {
               const Icon = item.icon;
               return (
-                <button
+                <a
                   key={index}
+                  href={item.href}
+                  onClick={onClose}
                   className={`
                     w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200
                     ${item.active 
@@ -59,7 +61,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                 >
                   <Icon className="h-5 w-5" />
                   <span className="font-medium">{item.label}</span>
-                </button>
+                </a>
               );
             })}
           </nav>
