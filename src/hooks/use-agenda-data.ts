@@ -17,7 +17,7 @@ interface AgendaData {
   error: string | null;
 }
 
-export const useAgendaData = (): AgendaData => {
+export const useAgendaData = (startDate?: Date, endDate?: Date): AgendaData => {
   const [data, setData] = useState<AgendaData>({
     agendamentos: [],
     loading: true,
@@ -29,12 +29,22 @@ export const useAgendaData = (): AgendaData => {
       try {
         setData(prev => ({ ...prev, loading: true, error: null }));
 
-        // Primeiro buscar agendamentos
-        const { data: agendamentos, error } = await supabase
+        // Construir query com filtros de data
+        let query = supabase
           .from('agendamentos')
           .select('*')
           .eq('status', 'agendado')
-          .not('data_hora_agendamento', 'is', null)
+          .not('data_hora_agendamento', 'is', null);
+
+        if (startDate) {
+          query = query.gte('data_hora_agendamento', startDate.toISOString());
+        }
+        
+        if (endDate) {
+          query = query.lte('data_hora_agendamento', endDate.toISOString());
+        }
+
+        const { data: agendamentos, error } = await query
           .order('data_hora_agendamento', { ascending: true });
 
         if (error) {
@@ -84,7 +94,7 @@ export const useAgendaData = (): AgendaData => {
     };
 
     fetchAgendamentos();
-  }, []);
+  }, [startDate, endDate]);
 
   return data;
 };
