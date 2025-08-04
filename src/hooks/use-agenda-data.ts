@@ -41,7 +41,7 @@ export const useAgendaData = (startDate?: Date, endDate?: Date): AgendaData => {
         }
         
         if (endDate) {
-          query = query.lte('data_hora_agendamento', endDate.toISOString());
+          query = query.lt('data_hora_agendamento', endDate.toISOString());
         }
 
         const { data: agendamentos, error } = await query

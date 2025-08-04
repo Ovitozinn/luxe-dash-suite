@@ -1,4 +1,4 @@
-import { X, BarChart3, Calendar, Send, Settings } from 'lucide-react';
+import { X, BarChart3, Calendar, Send, Settings, Users, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface DashboardSidebarProps {
@@ -10,7 +10,9 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
   const menuItems = [
     { icon: BarChart3, label: 'Dashboard', href: '/', active: window.location.pathname === '/' },
     { icon: Calendar, label: 'Agenda', href: '/agenda', active: window.location.pathname === '/agenda' },
-    { icon: Send, label: 'Follow-ups', href: '#', active: false },
+    { icon: Users, label: 'Contatos', href: '/contatos', active: window.location.pathname === '/contatos' },
+    { icon: Send, label: 'Disparos', href: '/disparos', active: window.location.pathname === '/disparos' },
+    { icon: MessageSquare, label: 'Follow-ups', href: '#', active: false },
     { icon: Settings, label: 'Configurações', href: '#', active: false },
   ];
 
