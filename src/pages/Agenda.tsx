@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,7 +16,7 @@ const Agenda = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   // Calcular datas de início e fim baseado no modo
-  const getDateRange = () => {
+  const { startDate, endDate } = useMemo(() => {
     if (viewMode === 'list') {
       return { startDate: undefined, endDate: undefined };
     }
@@ -32,9 +32,8 @@ const Agenda = () => {
         endDate: endOfWeek(currentDate, { locale: ptBR })
       };
     }
-  };
+  }, [viewMode, agendaMode, currentDate]);
 
-  const { startDate, endDate } = getDateRange();
   const { agendamentos, loading, error } = useAgendaData(startDate, endDate);
 
   const handleChatClick = (whaticketConversationId: string) => {
